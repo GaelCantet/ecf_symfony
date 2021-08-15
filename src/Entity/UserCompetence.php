@@ -35,7 +35,7 @@ class UserCompetence
     private $niveau;
 
     /**
-     * @ORM\Column(type="binary")
+     * @ORM\Column(type="string", length=255)
      */
     private $favori;
 
@@ -80,15 +80,20 @@ class UserCompetence
         return $this;
     }
 
-    public function getFavori()
+    public function getFavori(): ?string
     {
         return $this->favori;
     }
 
-    public function setFavori($favori): self
+    public function setFavori(string $favori): self
     {
         $this->favori = $favori;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getCompetence();
     }
 }

@@ -72,6 +72,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userCompetences;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $disponibilite;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $visibilite;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
@@ -304,5 +314,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getDisponibilite(): ?bool
+    {
+        return $this->disponibilite;
+    }
+
+    public function setDisponibilite(bool $disponibilite): self
+    {
+        $this->disponibilite = $disponibilite;
+
+        return $this;
+    }
+
+    public function getVisibilite(): ?bool
+    {
+        return $this->visibilite;
+    }
+
+    public function setVisibilite(?bool $visibilite): self
+    {
+        $this->visibilite = $visibilite;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return '' . $this->getId() . '';
     }
 }

@@ -23,14 +23,14 @@ class Document
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $chemin;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="documents")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $label;
 
     public function getId(): ?int
     {
@@ -49,18 +49,6 @@ class Document
         return $this;
     }
 
-    public function getChemin(): ?string
-    {
-        return $this->chemin;
-    }
-
-    public function setChemin(string $chemin): self
-    {
-        $this->chemin = $chemin;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -69,6 +57,18 @@ class Document
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): self
+    {
+        $this->label = $label;
 
         return $this;
     }
