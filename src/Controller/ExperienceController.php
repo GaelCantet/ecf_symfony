@@ -6,6 +6,7 @@ use App\Entity\Entreprise;
 use App\Entity\Experience;
 use App\Entity\User;
 use App\Form\ExperienceType;
+use App\Form\InnerExperienceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,6 +44,9 @@ class ExperienceController extends AbstractController
         $addExperience = $this->createForm(ExperienceType::class, $experience);
         $addExperience->handleRequest($request);
 
+        $innerExperience = $this->createForm(InnerExperienceType::class, $experience);
+        $innerExperience->handleRequest($request);
+
         if($addExperience->isSubmitted() && $addExperience->isValid()) {
             $experience = $addExperience->getData();
             $experience->setUser($user);
@@ -60,10 +64,22 @@ class ExperienceController extends AbstractController
                 'id' => $user->getId(),
                 'experiences' => $experiences
             ]);
+        } elseif($innerExperience->isSubmitted() && $innerExperience->isValid()) {
+            $experience = $innerExperience->getData();
+            $experience->setUser($user);
+            $entreprise = $innerExperience->get('entreprise')->getData();
+            $this->entityManager->persist($experience);
+            $this->entityManager->flush();
+            $experiences = $user->getExperiences();
+            return $this->redirectToRoute('experience', [
+                'id' => $user->getId(),
+                'experiences' => $experiences
+            ]);
         }
 
         return $this->render('experience/add_experience.html.twig', [
             'add_experience' => $addExperience->createView(),
+            'add_inner_experience' => $innerExperience->createView()
         ]);
     }
 
@@ -77,8 +93,20 @@ class ExperienceController extends AbstractController
         $updateExperience = $this->createForm(ExperienceType::class, $experience);
         $updateExperience->handleRequest($request);
 
+        $updateInnerExperience = $this->createForm(InnerExperienceType::class, $experience);
+        $updateInnerExperience->handleRequest($request);
+
         if($updateExperience->isSubmitted() && $updateExperience->isValid()) {
             $experience = $updateExperience->getData();
+            $this->entityManager->persist($experience);
+            $this->entityManager->flush();
+            $experiences = $user->getExperiences();
+            return $this->redirectToRoute('experience', [
+                'id' => $user->getId(),
+                'experiences' => $experiences
+            ]);
+        } elseif($updateInnerExperience->isSubmitted() && $updateInnerExperience->isValid()) {
+            $experience = $updateInnerExperience->getData();
             $this->entityManager->persist($experience);
             $this->entityManager->flush();
             $experiences = $user->getExperiences();
@@ -90,6 +118,7 @@ class ExperienceController extends AbstractController
 
         return $this->render('experience/update_experience.html.twig', [
             'update_experience' => $updateExperience->createView(),
+            'update_inner_experience' => $updateInnerExperience->createView()
         ]);
     }
 

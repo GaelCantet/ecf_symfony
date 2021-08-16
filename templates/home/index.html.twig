@@ -57,7 +57,7 @@
                 </td>
                 <td><a class="btn-primary" href="{{ path('control_profil', {'id': user.id}) }}">Modifier ce profil</a></td>
                 {% if is_granted('ROLE_ADMIN') %}
-                <td><a class="btn-secondary" href="{{ path('delete_profil', {'id': app.user.id}) }}">Supprimer mon profil</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_profil_admin', {'id': user.id}) }}">Supprimer ce profil</a></td>
                 {% endif %}
             </tr>
             {% endif %}

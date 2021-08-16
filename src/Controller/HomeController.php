@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Encoder\PasswordHasherEncoder;
 
 class HomeController extends AbstractController
 {
@@ -404,5 +405,43 @@ class HomeController extends AbstractController
         return $this->render('home/resume.html.twig', [
             'user' => $user
         ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("home/add_profil", name="add_profil_admin")
+     */
+    public function addProfilAdmin(HttpFoundationRequest $request, UserPasswordHasherInterface $passwordEncoder): Response
+    {
+        $user = new User();
+        $addUser = $this->createForm(RegistrationType::class, $user);
+        $addUser->handleRequest($request);
+
+        if($addUser->isSubmitted() && $addUser->isValid()) {
+            $user = $addUser->getData();
+            $role = $_POST['qualite'];
+            $user->setRoles([$role]);
+            $user->setPassword($passwordEncoder->hashPassword($user, $user->getPassword()));
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('home/add_profil.html.twig', [
+            'add_profil' => $addUser->createView()
+        ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     * @Route("home/delete_profil/{id}", name="delete_profil_admin")
+     */
+    public function deleteProfilAdmin(User $user): Response
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('home');
     }
 }

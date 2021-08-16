@@ -3,5 +3,9 @@
 {% block title %}Mes expériences{% endblock %}
 
 {% block body %}
+{% if 'ROLE_COLLABORATEUR' in app.user.roles %}
+{{ form(update_inner_experience) }}
+{% else %}
 {{ form(update_experience) }}
+{% endif %}
 {% endblock %}

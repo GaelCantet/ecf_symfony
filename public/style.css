@@ -40,6 +40,7 @@ main > a {
 #categorie > div,
 #document > div,
 #registration > div,
+form[name=registration] > div,
 form[name=entreprise] > div {
     display: flex;
     flex-direction: column;
@@ -52,7 +53,8 @@ form[name=entreprise] > div {
     margin-right: 1rem;
 }
 
-input {
+input,
+textarea {
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: .4rem;

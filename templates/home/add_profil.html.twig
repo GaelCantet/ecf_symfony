@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un profil{% endblock %}
+
+{% block body %}
+
+{{ form_start(add_profil) }}
+    <div>
+        <label for="qualite">Qualité</label>
+        <select name="qualite" id="qualite">
+            <option value="ROLE_COLLABORATEUR">Collaborateur</option>
+            <option value="ROLE_COMMERCIAL">Commercial</option>
+        </select>
+    </div>
+    {{ form_row(add_profil.email) }}
+    {{ form_row(add_profil.password) }}
+    {{ form_row(add_profil.nom) }}
+    {{ form_row(add_profil.prenom) }}
+    {{ form_row(add_profil.adresse) }}
+    {{ form_row(add_profil.telephone) }}
+    {{ form_row(add_profil.disponibilite) }}
+    {{ form_row(add_profil.visibilite) }}
+    {{ form_row(add_profil.save) }}
+{{ form_end(add_profil) }}
+
+{% endblock %}

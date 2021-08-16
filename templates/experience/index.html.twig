@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ experience.entreprise }}</td>
                 <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
-                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.dateFin | date('d-m-Y')}}</td>
                 <td>{{ experience.details }}</td>
                 <td><a class="btn-primary" href="{{ path('update_experience', {'id': experience.id}) }}">Modifier cette expérience</a></td>
                 <td><a class="btn-secondary" href="{{ path('delete_experience', {'id': experience.id}) }}">Supprimer cette expérience</a></td>
