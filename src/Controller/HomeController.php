@@ -36,6 +36,7 @@ class HomeController extends AbstractController
      */
     public function index(HttpFoundationRequest $request, UserPasswordHasherInterface $passwordEncoder): Response
     {
+        //Formulaire de recherche par profil
         $searchByNom = $this->createFormBuilder()
             ->add('nom', TextType::class, [
                 'required' => false
@@ -64,6 +65,7 @@ class HomeController extends AbstractController
             ->getForm();
         $searchByNom->handleRequest($request);
 
+        //Formulaire de recherche par compétence
         $searchByCompetence = $this->createFormBuilder()
             ->add('competence', EntityType::class, [
                 'class' => Competence::class
@@ -85,6 +87,7 @@ class HomeController extends AbstractController
             ->getForm();
         $searchByCompetence->handleRequest($request);
         
+        //Si le formulaire de recherche par profil est soumis
         if($searchByNom->isSubmitted() && $searchByNom->isValid()) {
             $users = [];
             if($searchByNom->get('competences')->getData()) {
@@ -130,6 +133,7 @@ class HomeController extends AbstractController
                     }
                 }
             }
+        //Sinon, si le formulaire de recherche par compétence est soumis
         } elseif($searchByCompetence->isSubmitted() && $searchByCompetence->isValid()) {
             $favori = $searchByCompetence->get('favori')->getData();
             $niveau = $searchByCompetence->get('niveau')->getData();
@@ -167,10 +171,12 @@ class HomeController extends AbstractController
                     $users[] = $user->getUser();
                 }
             }
+        //Sinon on affiche l'intégratlité des profils
         } else {
             $users = $this->entityManager->getRepository(User::class)->findAll();
         }
 
+        //Gestion de l'inscription à la plateforme
         $user = new User();
         $addUser = $this->createForm(RegistrationType::class, $user);
         $addUser->handleRequest($request);
