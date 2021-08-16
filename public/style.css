@@ -41,7 +41,8 @@ main > a {
 #document > div,
 #registration > div,
 form[name=registration] > div,
-form[name=entreprise] > div {
+form[name=entreprise] > div,
+form[name=profil] > div {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
