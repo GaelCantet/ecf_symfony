@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprises{% endblock %}
+
+{% block body %}
+
+{{ form_start(update_entreprise) }}
+{{ form_row(update_entreprise.nom) }}
+{{ form_row(update_entreprise.adresse) }}
+{{ form_row(update_entreprise.contact) }}
+<button class="btn-primary" type="submit">Enregistrer</button>
+{{ form_end(update_entreprise) }}
+
+{% endblock %}

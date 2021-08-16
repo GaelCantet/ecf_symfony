@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprises{% endblock %}
+
+{% block body %}
+
+{{ form_start(add_entreprise) }}
+{{ form_row(add_entreprise.nom) }}
+{{ form_row(add_entreprise.adresse) }}
+{{ form_row(add_entreprise.contact) }}
+<button class="btn-primary" type="submit">Enregistrer</button>
+{{ form_end(add_entreprise) }}
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Contact</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entreprise in entreprises %}
+            <tr>
+                <td>{{ entreprise.nom }}</td>
+                <td>{{ entreprise.adresse }}</td>
+                <td>{{ entreprise.contact }}</td>
+                <td><a class="btn-primary" href="{{ path('update_admin_entreprise', {'id': entreprise.id}) }}">Modifier cette entreprise</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_admin_entreprise', {'id': entreprise.id}) }}">Supprimer cette entreprise</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

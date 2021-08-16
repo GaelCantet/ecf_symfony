@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compétences{% endblock %}
+
+{% block body %}
+
+{{ form(add_competence) }}
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for competence in competences %}
+            <tr>
+                <td>{{ competence.nom }}</td>
+                <td>{{ competence.categorie }}</td>
+                <td><a class="btn-primary" href="{{ path('update_admin_competence', {'id': competence.id}) }}">Modifier cette compétence</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_admin_competence', {'id': competence.id}) }}">Supprimer cette compétence</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

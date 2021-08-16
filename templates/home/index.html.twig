@@ -1,20 +1,215 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% if not is_granted('ROLE_USER') %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Applications/MAMP/htdocs/ecf_php/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Applications/MAMP/htdocs/ecf_php/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+{{ form(add_user) }}
+
+{% elseif is_granted('ROLE_COMMERCIAL') %}
+
+<h2>Recherche par profil</h2>
+{{ form(search_nom) }}
+
+<h2>Recherche par compétence</h2>
+{{ form(search_competence) }}
+
+<h2>{{ users|length }} résultat(s)</h2>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Qualité</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Compétences</th>
+                <th>Disponibilité</th>
+                <th></th>
+                {% if is_granted('ROLE_ADMIN') %}<th></th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            {% if not ("ROLE_COMMERCIAL" in user.roles) and not ("ROLE_ADMIN" in user.roles) %}
+            <tr>
+                <td>{% if "ROLE_COLLABORATEUR" in user.roles %}Collaborateur{% else %}Candidat{% endif %}</td>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telephone }}</td>
+                <td>
+                    <ul>
+                    {% for competence in user.userCompetences %}
+                        <li>{{ competence.competence }}, {{ competence.niveau }}/5</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                {% if user.disponibilite == 1 %}
+                    Disponible
+                {% else %}
+                    Non Disponible
+                {% endif %}
+                </td>
+                <td><a class="btn-primary" href="{{ path('control_profil', {'id': user.id}) }}">Modifier ce profil</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td><a class="btn-secondary" href="{{ path('delete_profil', {'id': app.user.id}) }}">Supprimer mon profil</a></td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
+
+
+{% elseif is_granted('ROLE_COLLABORATEUR') %}
+
+<a class="btn-primary" href="{{ path('update_profil', {'id': app.user.id}) }}">Modifier mon profil</a>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                    <th>Compétences</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        {% if user.visibilite %}
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telephone }}</td>
+                <td>
+                    <ul>
+                    {% for competence in user.userCompetences %}
+                        <li>{{ competence.competence }}, {{ competence.niveau }}/5</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>   
+</div>
+
+
+{% else %}
+
+<a class="btn-primary" href="{{ path('update_profil', {'id': app.user.id}) }}">Modifier mon profil</a>
+<a class="btn-secondary" href="{{ path('delete_profil', {'id': app.user.id}) }}">Supprimer mon profil</a>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Disponibilité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ app.user.nom }}</td>
+                <td>{{ app.user.prenom }}</td>
+                <td>{{ app.user.adresse }}</td>
+                <td>{{ app.user.telephone }}</td>
+                <td>{{ app.user.email }}</td>
+                <td>
+                    {% if app.user.disponibilite %}
+                    Oui
+                    {% else %}
+                    Non
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Compétence</th>
+                <th>Niveau</th>
+                <th>Favori</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competence in app.user.userCompetences %}
+            <tr>
+                <td>{{ competence.competence }}</td>
+                <td>{{ competence.niveau }}</td>
+                {% if competence.favori == 'true' %}
+                <td>Oui</td>
+                {% elseif competence.favori == 'false' %}
+                <td>Non</td>
+                {% else %}
+                <td>Indifférent</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Détails</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for experience in app.user.experiences %}
+            <tr>
+                <td>{{ experience.entreprise }}</td>
+                <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
+                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.details }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Lien</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in app.user.documents %}
+            <tr>
+                <td>{{ document.label }}</td>
+                <td><a target="_blank" href="{{ asset('documents/' ~ document.nom) }}">{{ document.nom }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endif %}
+
 {% endblock %}

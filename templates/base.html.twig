@@ -3,17 +3,43 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="{{ asset('reset.css') }}" />
+            <link rel="stylesheet" href="{{ asset('style.css') }}" />
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            <script src="{{ asset('script.js') }}"></script>
         {% endblock %}
     </head>
     <body>
+        <header class="noprint">
+            {% if is_granted('ROLE_USER') %}
+            <h2>Bonjour, {{ app.user.prenom }} {{ app.user.nom }}</h2>
+            {% endif %}
+            <nav>
+                <ul>
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('competence') }}">Compétences</a></li>
+                    <li><a href="{{ path('categorie') }}">Catégories</a></li>
+                    <li><a href="{{ path('entreprise') }}">Entreprises</a></li>
+                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                {% elseif is_granted('ROLE_COMMERCIAL') %}
+                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                {% elseif is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('user_competence', {'id': app.user.id}) }}">Mes compétences</a></li>
+                    <li><a href="{{ path('experience', {'id': app.user.id}) }}">Mes expériences</a></li>
+                    <li><a href="{{ path('document', {'id': app.user.id}) }}">Mes documents</a></li>
+                    <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                {% endif %}
+                </ul>
+            </nav>
+        </header>
+        <main>
         {% block body %}{% endblock %}
+        </main>
     </body>
 </html>

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes documents{% endblock %}
+
+{% block body %}
+<a class="btn-primary" href="{{ path('add_document', {'id': app.user.id}) }}">Ajouter un document</a>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Lien</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in documents %}
+            <tr>
+                <td>{{ document.label }}</td>
+                <td><a class="btn-primary" target="_blank" href="{{ asset('documents/' ~ document.nom) }}">{{ document.nom }}</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_document', {'id': document.id}) }}">Supprimer ce document</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+
+{{ form(add_categorie) }}
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.nom }}</td>
+                <td><a class="btn-primary" href="{{ path('update_admin_categorie', {'id': categorie.id}) }}">Modifier cette catégorie</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_admin_categorie', {'id': categorie.id}) }}">Supprimer cette catégorie</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

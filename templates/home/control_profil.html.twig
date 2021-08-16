@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le profil{% endblock %}
+
+{% block body %}
+
+<h1>{{ user.prenom }} {{ user.nom }}, {% if "ROLE_COLLABORATEUR" in user.roles %}collaborateur{% else %}candidat{% endif %}</h1>
+
+<a class="btn-primary" href="{{ path('resume', {'id': user.id}) }}">Afficher le CV</a>
+
+<h2>Expériences</h2>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Détails</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {{ form_start(add_experience) }}
+                <td>{{ form_row(add_experience.entreprise) }}</td>
+                <td>{{ form_row(add_experience.date_debut) }}</td>
+                <td>{{ form_row(add_experience.date_fin) }}</td>
+                <td>{{ form_row(add_experience.details) }}</td>
+                <td>{{ form_row(add_experience.save) }}</td>
+                <td></td>
+                {{ form_end(add_experience) }}
+            </tr>
+            {% for experience in user.experiences %}
+            <tr>
+                <td>{{ experience.entreprise }}</td>
+                <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
+                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.details }}</td>
+                <td><a class="btn-primary" href="{{ path('update_profil_experience', {'id': experience.id}) }}">Modifier cette expérience</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_profil_experience', {'id': experience.id}) }}">Supprimer cette expérience</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<h2>Copétences</h2>
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Compétence</th>
+                <th>Niveau</th>
+                <th>Favori</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {{ form_start(add_competence) }}
+                <td>{{ form_row(add_competence.competence) }}</td>
+                <td>{{ form_row(add_competence.niveau) }}</td>
+                <td>{{ form_row(add_competence.favori) }}</td>
+                <td>{{ form_row(add_competence.save) }}</td>
+                <td></td>
+                {{ form_end(add_competence) }}
+            </tr>
+            {% for competence in user.userCompetences %}
+            <tr>
+                <td>{{ competence.competence }}</td>
+                <td>{{ competence.niveau }}</td>
+                {% if competence.favori == 'true' %}
+                <td>Oui</td>
+                {% elseif competence.favori == 'false' %}
+                <td>Non</td>
+                {% else %}
+                <td>Indifférent</td>
+                {% endif %}
+                <td><a class="btn-primary" href="{{ path('update_profil_competence', {'id': competence.id}) }}">Modifier cette compétence</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_profil_competence', {'id': competence.id}) }}">Supprimer cette compétence</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<h2>Informations</h2>
+{{ form_start(control_profil) }}
+    {{ form_row(control_profil.poste) }}
+    {{ form_row(control_profil.disponibilite) }}
+    {{ form_row(control_profil.visibilite) }}
+    {{ form_row(control_profil.save) }}
+{{ form_end(control_profil) }}
+
+{% endblock %}

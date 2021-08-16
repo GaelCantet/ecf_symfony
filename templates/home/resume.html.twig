@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CV{% endblock %}
+
+{% block body %}
+
+<a class="noprint btn-primary" onclick="window.print();" href="#">Générer un CV</a>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Disponibilité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.adresse }}</td>
+                <td>{{ user.telephone }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.disponibilite %}
+                    Oui
+                    {% else %}
+                    Non
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Compétence</th>
+                <th>Niveau</th>
+                <th>Favori</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competence in user.userCompetences %}
+            <tr>
+                <td>{{ competence.competence }}</td>
+                <td>{{ competence.niveau }}</td>
+                {% if competence.favori == 'true' %}
+                <td>Oui</td>
+                {% elseif competence.favori == 'false' %}
+                <td>Non</td>
+                {% else %}
+                <td>Indifférent</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Détails</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for experience in user.experiences %}
+            <tr>
+                <td>{{ experience.entreprise }}</td>
+                <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
+                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.details }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-wrapper">
+    <table class="noprint">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Lien</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for document in user.documents %}
+            <tr>
+                <td>{{ document.label }}</td>
+                <td><a target="_blank" href="{{ asset('documents/' ~ document.nom) }}">{{ document.nom }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

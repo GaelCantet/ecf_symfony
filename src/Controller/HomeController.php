@@ -224,6 +224,19 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
+     * @Route("home/delete_profil/{id}", name="delete_profil")
+     */
+    public function deleteProfil(User $user): Response
+    {
+        $this->container->get('security.token_storage')->setToken(null);
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_logout');
+    }
+
+    /**
      * @IsGranted("ROLE_COMMERCIAL")
      * @Route("/control_profil/{id}", name="control_profil")
      */

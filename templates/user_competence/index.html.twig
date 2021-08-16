@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes compétences{% endblock %}
+
+{% block body %}
+
+<a class="btn-primary" href="{{ path('add_user_competence', {'id': app.user.id}) }}">Ajouter une compétence</a>
+
+<div class="table-wrapper"> 
+    <table>
+        <thead>
+            <tr>
+                <th>Compétence</th>
+                <th>Niveau</th>
+                <th>Favori</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competence in competences %}
+            <tr>
+                <td>{{ competence.competence }}</td>
+                <td>{{ competence.niveau }}</td>
+                {% if competence.favori == 'true' %}
+                <td>Oui</td>
+                {% elseif competence.favori == 'false' %}
+                <td>Non</td>
+                {% else %}
+                <td>Indifférent</td>
+                {% endif %}
+                <td><a class="btn-primary" href="{{ path('update_user_competence', {'id': competence.id}) }}">Modifier cette compétence</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_user_competence', {'id': competence.id}) }}">Supprimer cette compétence</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes expériences{% endblock %}
+
+{% block body %}
+<a class="btn-primary" href="{{ path('add_experience', {'id': app.user.id}) }}">Ajouter une expérience</a>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Entreprise</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Détails</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for experience in experiences %}
+            <tr>
+                <td>{{ experience.entreprise }}</td>
+                <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
+                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.details }}</td>
+                <td><a class="btn-primary" href="{{ path('update_experience', {'id': experience.id}) }}">Modifier cette expérience</a></td>
+                <td><a class="btn-secondary" href="{{ path('delete_experience', {'id': experience.id}) }}">Supprimer cette expérience</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
