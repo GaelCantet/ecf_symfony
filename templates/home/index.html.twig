@@ -155,12 +155,12 @@
             <tr>
                 <td>{{ competence.competence }}</td>
                 <td>{{ competence.niveau }}</td>
-                {% if competence.favori == 'true' %}
+                {% if competence.fav %}
                 <td>Oui</td>
-                {% elseif competence.favori == 'false' %}
-                <td>Non</td>
-                {% else %}
+                {% elseif competence.fav is null %}
                 <td>Indifférent</td>
+                {% else %}
+                <td>Non</td>
                 {% endif %}
             </tr>
             {% endfor %}

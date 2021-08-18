@@ -22,12 +22,12 @@
             <tr>
                 <td>{{ competence.competence }}</td>
                 <td>{{ competence.niveau }}</td>
-                {% if competence.favori == 'true' %}
+                {% if competence.fav %}
                 <td>Oui</td>
-                {% elseif competence.favori == 'false' %}
-                <td>Non</td>
-                {% else %}
+                {% elseif competence.fav is null %}
                 <td>Indifférent</td>
+                {% else %}
+                <td>Non</td>
                 {% endif %}
                 <td><a class="btn-primary" href="{{ path('update_user_competence', {'id': competence.id}) }}">Modifier cette compétence</a></td>
                 <td><a class="btn-secondary" href="{{ path('delete_user_competence', {'id': competence.id}) }}">Supprimer cette compétence</a></td>

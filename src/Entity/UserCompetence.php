@@ -35,9 +35,9 @@ class UserCompetence
     private $niveau;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $favori;
+    private $fav;
 
     public function getId(): ?int
     {
@@ -80,20 +80,20 @@ class UserCompetence
         return $this;
     }
 
-    public function getFavori(): ?string
-    {
-        return $this->favori;
-    }
-
-    public function setFavori(string $favori): self
-    {
-        $this->favori = $favori;
-
-        return $this;
-    }
-
     public function __toString()
     {
         return $this->getCompetence();
+    }
+
+    public function getFav(): ?bool
+    {
+        return $this->fav;
+    }
+
+    public function setFav(?bool $fav): self
+    {
+        $this->fav = $fav;
+
+        return $this;
     }
 }

@@ -22,12 +22,13 @@ class UserCompetenceType extends AbstractType
                     'max' => 5
                 ]
             ])
-            ->add('favori', ChoiceType::class, [
+            ->add('fav', ChoiceType::class, [
                 'choices' => [
-                    'Indifférent' => 'null',
-                    'J\'aime' => 'true',
-                    'Je n\'aime pas' => 'false'
-                ]
+                    'Indifférent' => null,
+                    'J\'aime' => true,
+                    'Je n\'aime pas' => false
+                ],
+                'label' => 'Intérêt'
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
