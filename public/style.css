@@ -110,6 +110,15 @@ button:focus,
     color: var(--primary);
 }
 
+.fav {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 1rem;
+    background-color: var(--secondary);
+    border-radius: 50%;
+}
+
 @media screen and (min-width: 48em) {
     body {
         display: flex;
@@ -119,6 +128,10 @@ button:focus,
 @media print {
     .noprint {
         display: none;
+    }
+
+    table {
+        overflow-x: visible;
     }
 }
 

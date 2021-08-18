@@ -78,9 +78,9 @@ class HomeController extends AbstractController
             ])
             ->add('favori', ChoiceType::class, [
                 'choices' => [
-                    'Indifférent' => 'null',
-                    'Oui' => 'true',
-                    'Non' => 'false'
+                    'Indifférent' => null,
+                    'Oui' => 1,
+                    'Non' => 0
                 ]
             ])
             ->add('rechercher' , SubmitType::class)
@@ -158,7 +158,7 @@ class HomeController extends AbstractController
                     'SELECT userCompetence
                     FROM App\Entity\UserCompetence userCompetence
                     WHERE userCompetence.competence = :competence_id
-                        AND userCompetence.favori = :favori
+                        AND userCompetence.fav = :favori
                         AND userCompetence.niveau >= :niveau'
                 )->setParameters([
                     'competence_id' => $competenceId,

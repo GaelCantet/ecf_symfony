@@ -26,7 +26,7 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Téléphone</th>
-                <th>Compétences</th>
+                <th>Compétences (<span class="fav"></span>favori)</th>
                 <th>Disponibilité</th>
                 <th></th>
                 {% if is_granted('ROLE_ADMIN') %}<th></th>{% endif %}
@@ -34,7 +34,7 @@
         </thead>
         <tbody>
         {% for user in users %}
-            {% if not ("ROLE_COMMERCIAL" in user.roles) and not ("ROLE_ADMIN" in user.roles) %}
+            {% if not ("ROLE_COMMERCIAL" in user.roles) and not ("ROLE_ADMIN" in user.roles) and not ("ROLE_SUPER_ADMIN" in user.roles) %}
             <tr>
                 <td>{% if "ROLE_COLLABORATEUR" in user.roles %}Collaborateur{% else %}Candidat{% endif %}</td>
                 <td>{{ user.nom }}</td>
@@ -44,7 +44,7 @@
                 <td>
                     <ul>
                     {% for competence in user.userCompetences %}
-                        <li>{{ competence.competence }}, {{ competence.niveau }}/5</li>
+                        <li>{% if competence.fav %}<span class="fav"></span>{% endif %}{{ competence.competence }}, {{ competence.niveau }}/5</li>
                     {% endfor %}
                     </ul>
                 </td>
@@ -79,7 +79,7 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Téléphone</th>
-                    <th>Compétences</th>
+                <th>Compétences (<span class="fav"></span>favori)</th>
             </tr>
         </thead>
         <tbody>
@@ -93,7 +93,7 @@
                 <td>
                     <ul>
                     {% for competence in user.userCompetences %}
-                        <li>{{ competence.competence }}, {{ competence.niveau }}/5</li>
+                        <li>{% if competence.fav %}<span class="fav"></span>{% endif %}{{ competence.competence }}, {{ competence.niveau }}/5</li>
                     {% endfor %}
                     </ul>
                 </td>
