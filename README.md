@@ -18,6 +18,7 @@ Il est possible de s'inscrire afin d'avoir accès à l'application en définissa
 * Collaborateur: collaborateur@collaborateur.local / MDP: test
 * Commercial: commercial@commercial.local / MDP: test
 * Administrateur: admin@admin.local / MDP: test
+* Super-admin: sadmin@sadmin.local / MDP: test
 
 ## Candidats
 A l'inscription, un nouvel utilisateur se voit attribuer un ROLE_USER, faisant office de candidat.
