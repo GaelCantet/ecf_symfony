@@ -19,7 +19,8 @@ class UserCompetenceType extends AbstractType
             ->add('niveau', RangeType::class, [
                 'attr' => [
                     'min' => 1,
-                    'max' => 5
+                    'max' => 5,
+                    'value' => 1
                 ]
             ])
             ->add('fav', ChoiceType::class, [

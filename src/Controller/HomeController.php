@@ -73,7 +73,8 @@ class HomeController extends AbstractController
             ->add('niveau', RangeType::class, [
                 'attr' => [
                     'min' => 1,
-                    'max' => 5
+                    'max' => 5,
+                    'value' => 1
                 ]
             ])
             ->add('favori', ChoiceType::class, [
