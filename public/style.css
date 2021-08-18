@@ -125,16 +125,6 @@ button:focus,
     }
 }
 
-@media print {
-    .noprint {
-        display: none;
-    }
-
-    table {
-        overflow-x: visible;
-    }
-}
-
 /*HEADER*/
 header {
     padding: 2rem;
@@ -198,4 +188,10 @@ thead > tr {
 a[target="_blank"] {
     color: var(--primary-dark);
     text-decoration: underline;
+}
+
+@media print {
+    .noprint {
+        display: none;
+    }
 }

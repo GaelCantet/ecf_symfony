@@ -6,6 +6,8 @@
 
 {% if not is_granted('ROLE_USER') %}
 
+<h1>S'inscrire</h1>
+
 {{ form(add_user) }}
 
 {% elseif is_granted('ROLE_COMMERCIAL') %}
@@ -183,7 +185,7 @@
             <tr>
                 <td>{{ experience.entreprise }}</td>
                 <td>{{ experience.dateDebut | date('d-m-Y') }}</td>
-                <td>{{ experience.dateFin }}</td>
+                <td>{{ experience.dateFin | date('d-m-Y') }}</td>
                 <td>{{ experience.details }}</td>
             </tr>
             {% endfor %}
