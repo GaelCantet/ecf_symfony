@@ -1,5 +1,12 @@
 # ECF PHP-SYMFONY, Gael Cantet DWWM2021-1
 ## Informations générales
+### Installation
+* Installer Composer et symfony
+* Cloner le repo
+* Créer une bas de données
+* Créer une migration
+* Exécuter la migration
+* Injecter des données via le fichier data.sql
 ### Base de données
 La base de données est composées de 7 tables:
 * Une table catégorie
