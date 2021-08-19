@@ -3,7 +3,7 @@
 ### Installation
 * Installer Composer et symfony
 * Cloner le repo
-* Créer une bas de données
+* Créer une base de données
 * Créer une migration
 * Exécuter la migration
 * Injecter des données via le fichier data.sql
